@@ -13,6 +13,8 @@ M.general = {
     ["<C-l>"] = { "<Right>", "Move right" },
     ["<C-j>"] = { "<Down>", "Move down" },
     ["<C-k>"] = { "<Up>", "Move up" },
+    ["<C-Down>"] = { "<ESC>:m .+1<CR>==gi", "Move line one up"},
+    ["<C-Up>"] = { "<ESC>:m .-2<CR>==gi", "Move line one up"},
   },
 
   n = {
@@ -23,6 +25,8 @@ M.general = {
     ["<C-j>"] = { "<C-w>j", "Window down" },
     ["<C-k>"] = { "<C-w>k", "Window up" },
 
+    ["<C-Down>"] = { ":m .+1<CR>==", "Move line one down"},
+    ["<C-Up>"] = { ":m .-2<CR>==", "Move line one up"},
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
@@ -71,6 +75,9 @@ M.general = {
     -- Don't copy the replaced text after pasting in visual mode
     -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
     ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", opts = { silent = true } },
+    
+    ["<C-Down>"] = { ":m '>+1<CR>gv=gv", "Move line one down"},
+    ["<C-Up>"] = { ":m '<-2<CR>gv=gv", "Move line one down"},
   },
 }
 
