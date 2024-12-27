@@ -4,7 +4,7 @@ require "nvchad.lsp"
 local M = {}
 local utils = require "core.utils"
 
--- export on_attach & capabilities for custom lspconfigs
+-- Export on_attach & capabilities for custom LSP configs
 M.on_attach = function(client, bufnr)
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
@@ -13,7 +13,7 @@ M.on_attach = function(client, bufnr)
   end
 end
 
--- disable semantic tokens
+-- Disable semantic tokens
 M.on_init = function(client, _)
   if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method "textDocument/semanticTokens" then
     client.server_capabilities.semanticTokensProvider = nil
@@ -40,6 +40,7 @@ M.capabilities.textDocument.completion.completionItem = {
   },
 }
 
+-- Lua Language Server
 require("lspconfig").lua_ls.setup {
   on_init = M.on_init,
   on_attach = M.on_attach,
@@ -64,4 +65,13 @@ require("lspconfig").lua_ls.setup {
   },
 }
 
-return M
+-- Clangd Language Server for C/C++ (Raylib)
+require("lspconfig").clangd.setup {
+  cmd = { "clangd" }, -- Ensure clangd is installed and in your PATH
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+
+  -- Add any additional settings or flags if needed
+  root_dir = require("lspconfig").util.root_pattern("compile_commands.json", "Makefile", ".git"),
+}
